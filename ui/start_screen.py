@@ -16,10 +16,12 @@ class StartScreen(ctk.CTkFrame):
         ctk.CTkLabel(
             top, text="XYMYX", font=theme.font(32, "bold"), text_color=theme.BLACK
         ).pack(side="left")
-        for code, name in reversed(LANGUAGES.items()):
+        switch = ctk.CTkFrame(top, fg_color="transparent")
+        switch.pack(side="right")
+        for code, name in LANGUAGES.items():
             make_button = theme.primary_button if code == language else theme.secondary_button
-            make_button(top, name, lambda selected=code: app.set_language(selected), width=120).pack(
-                side="right", padx=(8, 0)
+            make_button(switch, name, lambda selected=code: app.set_language(selected), width=120).pack(
+                side="left", padx=(8, 0)
             )
 
         ctk.CTkLabel(
@@ -67,6 +69,7 @@ class StartScreen(ctk.CTkFrame):
         hint.grid(row=2, column=0, padx=24)
         if command is None:
             return
+        theme.enable_keyboard(tile, command)
         for area in (tile, title, hint):
             area.configure(cursor="hand2")
             area.bind("<Button-1>", lambda _event: command())

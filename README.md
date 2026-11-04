@@ -96,7 +96,11 @@ A browser cache can only be cleaned when that browser is closed. Edge can keep r
 
 Files in use or without permission are skipped and counted.
 
-Settings and the freed-space counter are saved in `%APPDATA%\XYMYX PC Care\settings.json`. Every cleanup is logged in `log.txt` in the same folder.
+The tool also works without a mouse. Tab moves between items, Enter or Space activates them, and Esc closes a question. In a question, the safe answer is selected first.
+
+Only one window runs at a time. Starting the tool again brings the open window to the front.
+
+Settings and the freed-space counter are saved in `%APPDATA%\XYMYX PC Care\settings.json`. Every cleanup is logged in `log.txt` in the same folder. The log keeps its newest entries and stays under about 1 MB.
 
 ## Project structure
 
@@ -114,6 +118,7 @@ XYMYX-PC-CARE/
 │  ├─ manufacturers.py        fixed list of official URLs
 │  ├─ powershell.py           hidden PowerShell with a timeout
 │  ├─ settings.py             settings, counter, size format
+│  ├─ single_instance.py      keeps it to one running window
 │  ├─ texts.py                all German and English text
 │  └─ windows_cleanup.py      recycle bin, Delivery Optimization, system state
 ├─ ui/                        start, driver, and cleanup screens

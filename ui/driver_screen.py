@@ -1,3 +1,4 @@
+import tkinter
 import webbrowser
 
 import customtkinter as ctk
@@ -157,11 +158,18 @@ class DriverScreen(ctk.CTkFrame):
                 text_color=theme.MUTED,
             ).pack(anchor="w")
             return
-        theme.secondary_button(
+        open_button = theme.secondary_button(
             footer,
             text(language, "open_driver_page"),
             lambda: self.open_page(manufacturer),
-        ).pack(anchor="w")
+        )
+        open_button.pack(anchor="w")
+        tkinter.Misc.bind(
+            open_button,
+            "<FocusIn>",
+            lambda _event: theme.scroll_into_view(parent, card),
+            add="+",
+        )
         if manufacturer.pc_maker_note:
             ctk.CTkLabel(
                 footer,

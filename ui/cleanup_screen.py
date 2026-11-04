@@ -177,7 +177,7 @@ class CleanupScreen(ctk.CTkFrame):
         category = preview.category
         available = preview.status == READY
         card = ctk.CTkFrame(
-            parent, fg_color=theme.SURFACE, border_color=theme.BORDER, border_width=1, corner_radius=12
+            parent, fg_color=theme.SURFACE, border_color=theme.BORDER, border_width=3, corner_radius=12
         )
         card.pack(fill="x", pady=(0, 10), padx=(0, 12))
         card.grid_columnconfigure(1, weight=1)
@@ -199,6 +199,12 @@ class CleanupScreen(ctk.CTkFrame):
         box.grid(row=0, column=0, rowspan=2, padx=(18, 8), pady=14)
         if available:
             self.choices[category.key] = choice
+            theme.enable_keyboard(
+                box,
+                box.toggle,
+                ring=card,
+                on_focus=lambda: theme.scroll_into_view(parent, card),
+            )
 
         name_color = theme.TEXT if available else theme.DISABLED_TEXT
         ctk.CTkLabel(
@@ -254,6 +260,7 @@ class CleanupScreen(ctk.CTkFrame):
         self.clean_button.configure(
             state="normal" if selected else "disabled",
             fg_color=theme.PRIMARY if selected else theme.BORDER,
+            border_color=theme.PRIMARY if selected else theme.BORDER,
             text_color_disabled=theme.DISABLED_TEXT,
         )
 

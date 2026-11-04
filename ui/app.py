@@ -63,6 +63,7 @@ class App(ctk.CTk):
             self.screen.destroy()
         self.screen = screen_class(self, self)
         self.screen.pack(fill="both", expand=True)
+        self.focus_set()
 
     def show_start(self):
         self.show_screen(StartScreen)
