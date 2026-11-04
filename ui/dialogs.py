@@ -2,7 +2,7 @@ import tkinter
 
 import customtkinter as ctk
 
-from ui import theme
+from ui import logo, theme
 
 DIALOG_WIDTH = 620
 TEXT_WRAP = 560
@@ -10,8 +10,9 @@ TEXT_WRAP = 560
 
 def confirm(parent, title, message, confirm_label, cancel_label):
     answer = {"confirmed": False}
-    dialog = ctk.CTkToplevel(parent, fg_color=theme.WHITE)
+    dialog = ctk.CTkToplevel(parent, fg_color=theme.SURFACE)
     dialog.title(title)
+    dialog.iconbitmap(logo.icon_path())
     dialog.resizable(False, False)
     dialog.transient(parent)
 

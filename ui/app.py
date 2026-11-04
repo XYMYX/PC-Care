@@ -7,7 +7,7 @@ from core.categories import build_categories, runtime_exclusions, system_paths
 from core.cleanup import Cleaner
 from core.settings import add_freed, app_data_dir, load_settings, save_settings
 from core.texts import text
-from ui import theme
+from ui import logo, theme
 from ui.cleanup_screen import CleanupScreen
 from ui.driver_screen import DriverScreen
 from ui.start_screen import StartScreen
@@ -15,8 +15,9 @@ from ui.start_screen import StartScreen
 
 class App(ctk.CTk):
     def __init__(self):
-        ctk.set_appearance_mode("light")
-        super().__init__(fg_color=theme.WHITE)
+        ctk.set_appearance_mode("dark")
+        super().__init__(fg_color=theme.BACKGROUND)
+        self.iconbitmap(logo.icon_path())
         options = admin.parse_options(sys.argv[1:])
         self.is_admin = admin.is_admin()
         self.settings_folder = (options.settings_folder if self.is_admin else None) or app_data_dir()

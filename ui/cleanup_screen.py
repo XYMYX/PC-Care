@@ -10,13 +10,13 @@ from ui.dialogs import confirm
 
 BODY_WRAP = 960
 ROW_WRAP = 720
-ADMIN_SURFACE = "#FCEBCF"
-ADMIN_TEXT = "#7A4A00"
+ADMIN_SURFACE = "#1A1405"
+ADMIN_TEXT = theme.AMBER
 
 
 class CleanupScreen(ctk.CTkFrame):
     def __init__(self, parent, app):
-        super().__init__(parent, fg_color=theme.WHITE)
+        super().__init__(parent, fg_color=theme.BACKGROUND)
         self.app = app
         self.language = app.language
         self.previews = []
@@ -24,21 +24,16 @@ class CleanupScreen(ctk.CTkFrame):
 
         top = ctk.CTkFrame(self, fg_color="transparent")
         top.pack(fill="x", padx=40, pady=(30, 0))
-        self.back_button = theme.secondary_button(top, text(self.language, "back"), app.show_start)
-        self.back_button.pack(side="left")
-        ctk.CTkLabel(
-            top,
-            text=text(self.language, "cleanup_title"),
-            font=theme.font(28, "bold"),
-            text_color=theme.TEXT,
-        ).pack(side="left", padx=24)
+        theme.title_label(top, text(self.language, "cleanup_title")).pack(side="left")
+        self.back_button = theme.secondary_button(top, f"< {text(self.language, 'back')}", app.show_start)
+        self.back_button.pack(side="right")
         self.rescan_button = theme.secondary_button(top, text(self.language, "scan_rescan"), self.scan)
-        self.rescan_button.pack(side="right")
+        self.rescan_button.pack(side="right", padx=(0, 12))
 
         self.intro = ctk.CTkLabel(
             self,
-            text=text(self.language, "cleanup_intro"),
-            font=theme.font(18),
+            text=f"> {text(self.language, 'cleanup_intro')}",
+            font=theme.font(17),
             text_color=theme.MUTED,
             wraplength=BODY_WRAP,
             justify="left",
@@ -62,9 +57,7 @@ class CleanupScreen(ctk.CTkFrame):
         ctk.CTkLabel(
             self.content, text=message, font=theme.font(20), text_color=theme.TEXT
         ).pack(pady=(60, 16))
-        self.progress = ctk.CTkProgressBar(
-            self.content, mode="determinate", width=480, progress_color=theme.PRIMARY
-        )
+        self.progress = theme.progress_bar(self.content, "determinate")
         self.progress.set(0)
         self.progress.pack()
 
@@ -80,7 +73,7 @@ class CleanupScreen(ctk.CTkFrame):
 
     def scan(self):
         self.choices = {}
-        self.intro.configure(text=text(self.language, "cleanup_intro"))
+        self.intro.configure(text=f"> {text(self.language, 'cleanup_intro')}")
         self.show_progress(text(self.language, "scan_loading"))
         self.rescan_button.configure(state="disabled")
         cleaner = self.app.create_cleaner()
@@ -103,7 +96,7 @@ class CleanupScreen(ctk.CTkFrame):
         self.previews = previews
         self.rescan_button.configure(state="normal")
         self.clear(self.content)
-        rows = ctk.CTkScrollableFrame(self.content, fg_color="transparent")
+        rows = theme.scrollable_frame(self.content)
         rows.pack(fill="both", expand=True)
 
         if self.app.same_user:
@@ -139,7 +132,13 @@ class CleanupScreen(ctk.CTkFrame):
         ).pack(anchor="w", pady=(12, 8))
 
     def add_admin_banner(self, parent):
-        banner = ctk.CTkFrame(parent, fg_color=ADMIN_SURFACE, corner_radius=12)
+        banner = ctk.CTkFrame(
+            parent,
+            fg_color=ADMIN_SURFACE,
+            border_color=ADMIN_TEXT,
+            border_width=2,
+            corner_radius=theme.CORNER_RADIUS,
+        )
         banner.pack(fill="x", pady=(20, 10), padx=(0, 12))
         ctk.CTkLabel(
             banner,
@@ -177,7 +176,11 @@ class CleanupScreen(ctk.CTkFrame):
         category = preview.category
         available = preview.status == READY
         card = ctk.CTkFrame(
-            parent, fg_color=theme.SURFACE, border_color=theme.BORDER, border_width=3, corner_radius=12
+            parent,
+            fg_color=theme.SURFACE,
+            border_color=theme.BORDER,
+            border_width=3,
+            corner_radius=theme.CORNER_RADIUS,
         )
         card.pack(fill="x", pady=(0, 10), padx=(0, 12))
         card.grid_columnconfigure(1, weight=1)
@@ -194,7 +197,9 @@ class CleanupScreen(ctk.CTkFrame):
             checkbox_height=32,
             fg_color=theme.PRIMARY,
             hover_color=theme.PRIMARY_HOVER,
-            border_color=theme.MUTED if available else theme.BORDER,
+            checkmark_color=theme.BLACK,
+            corner_radius=theme.CORNER_RADIUS,
+            border_color=theme.TEXT if available else theme.BORDER,
         )
         box.grid(row=0, column=0, rowspan=2, padx=(18, 8), pady=14)
         if available:
@@ -259,7 +264,7 @@ class CleanupScreen(ctk.CTkFrame):
         )
         self.clean_button.configure(
             state="normal" if selected else "disabled",
-            fg_color=theme.PRIMARY if selected else theme.BORDER,
+            fg_color=theme.PRIMARY if selected else theme.DISABLED_FILL,
             border_color=theme.PRIMARY if selected else theme.BORDER,
             text_color_disabled=theme.DISABLED_TEXT,
         )
@@ -308,7 +313,7 @@ class CleanupScreen(ctk.CTkFrame):
     def show_result(self, outcomes):
         self.set_buttons(True)
         self.app.add_freed_space(total_freed(outcomes))
-        self.intro.configure(text=text(self.language, "result_title"))
+        self.intro.configure(text=f"> {text(self.language, 'result_title')}")
         self.clear(self.content)
         self.clear(self.footer)
         language = self.language

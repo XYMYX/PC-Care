@@ -122,6 +122,8 @@ XYMYX-PC-CARE/
 │  ├─ texts.py                all German and English text
 │  └─ windows_cleanup.py      recycle bin, Delivery Optimization, system state
 ├─ ui/                        start, driver, and cleanup screens
+├─ assets/                    program icon
+├─ tools/make_icon.py         draws the icon from the logo lines
 └─ tests/                     pytest suite
 ```
 
