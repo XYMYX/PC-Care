@@ -61,7 +61,7 @@ The start screen shows the total space freed across all cleanups. This counts by
 
 ### The .exe
 
-Download `XYMYX-PC-Care.exe` and start it. No installation is needed.
+Download `XYMYX-PC-Care.exe` from the [latest release](https://github.com/XYMYX/PC-Care/releases/latest) and start it. No installation is needed.
 
 The .exe is **unsigned**, so Windows SmartScreen may show a warning. If you trust the source, choose "More info" and then "Run anyway". You can also build it yourself from this source.
 
